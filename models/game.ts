@@ -1,24 +1,18 @@
 import { model, Schema } from "mongoose";
-
-const Card = model(
-  "Card",
-  new Schema({
-    symbol: String,
-    letter: String,
-    power: Number,
-  })
-);
+import Card from "./card";
 
 const Game = model(
-  "Table",
+  "Game",
   new Schema({
     name: String,
+    playTime: Number,
+    ownerId: String,
     numberOfPlayers: Number,
-    discardPileCards: [Card],
-    playerOneCards: [Card],
-    playerTwoCards: [Card],
-    playerThreeCards: [Card],
-    playerFourCards: [Card],
+    discardPileCards: [{ type: Schema.Types.ObjectId, ref: Card }],
+    playerOneCards: [{ type: Schema.Types.ObjectId, ref: Card }],
+    playerTwoCards: [{ type: Schema.Types.ObjectId, ref: Card }],
+    playerThreeCards: [{ type: Schema.Types.ObjectId, ref: Card }],
+    playerFourCards: [{ type: Schema.Types.ObjectId, ref: Card }],
     whoseTurn: Number,
     whoWin: Number,
   })

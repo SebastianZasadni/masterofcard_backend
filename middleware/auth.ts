@@ -29,7 +29,6 @@ const auth = async (req: any, res: Response, next: NextFunction) => {
     if (!user || user.token !== token || !user.token) {
       throw new Error("Not Authorized");
     }
-
     req.user = user;
     next();
   } catch (error) {

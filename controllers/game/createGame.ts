@@ -1,0 +1,38 @@
+import { NextFunction, Response, Request } from "express";
+import Game from "../../models/game";
+
+const createGame = async (req: any, res: Response, next: NextFunction) => {
+  try {
+    const { playTime, numberOfPlayers, name } = req.body;
+    const { id } = req.user;
+    const userCreatedGame = await Game.find({ ownerId: id });
+    if (!!userCreatedGame.length) {
+      return res.status(409).json({
+        message: "User has already created the game",
+        status: "failed",
+      });
+    }
+    const isNameTaken = await Game.find({ name });
+    if (!!isNameTaken.length) {
+      return res.status(409).json({
+        message: "Name is taken",
+        status: "failed",
+      });
+    }
+    const game = await Game.create({
+      playTime,
+      name,
+      numberOfPlayers,
+      ownerId: id,
+    });
+    return res.status(200).json({
+      message: "Game created",
+      status: "success",
+      data: game,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export default createGame;
