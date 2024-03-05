@@ -21,6 +21,7 @@ const loginGuest = async (req: Request, res: Response, next: NextFunction) => {
       name,
       token,
     });
+
     return res.status(200).json({
       message: "Successful logged like a guest",
       guest: {
